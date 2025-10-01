@@ -23,6 +23,19 @@ def login_user(username, password):
     cursor.close()
     return result is not None
 
+def delete_user(username, password):
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM usuarios WHERE usuarioName=%s AND contrasea=%s", (username, hashpassword(password)))
+    user = cursor.fetchone()
+    if user:
+        cursor.execute("DELETE FROM usuarios WHERE usuarioName=%s", (username,))
+        db.commit()
+        cursor.close()
+        return "Usuario eliminado correctamente"
+    else:
+        cursor.close()
+        return "Credenciales incorrectas. No se elimina usuario."
+
 try:
     db = mysql.connector.connect(
     host="127.0.0.1",
