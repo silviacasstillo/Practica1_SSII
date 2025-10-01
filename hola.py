@@ -1,6 +1,7 @@
 import socket
 import mysql.connector
 import hashlib
+from rich import print
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
@@ -62,7 +63,7 @@ def realizar_transaccion(usuario_origen, usuario_destino, cantidad):
                       (usuario_origen_id, usuario_destino_id, cantidad))
         db.commit()
         cursor.close()
-        return f"Transacción realizada exitosamente: {cantidad} enviados de {usuario_origen} a {usuario_destino}"
+        return f"Transacción realizada exitosamente: {cantidad} enviados de [red]{usuario_origen}[/red] a [green]{usuario_destino}[/green]"
     
     except mysql.connector.Error as err:
         cursor.close()
