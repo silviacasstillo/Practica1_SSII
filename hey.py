@@ -26,8 +26,8 @@ def login_user(username, password):
 try:
     db = mysql.connector.connect(
     host="127.0.0.1",
-    user="root",
-    password="iissi$root",
+    user="ssii",
+    password="ssii",
     database="ssii3",
     charset="utf8mb4",
     collation="utf8mb4_general_ci"
@@ -45,8 +45,7 @@ except mysql.connector.Error as err:
 #server_socket.bind(('10.100.218.9', 8000))
 #server_socket.listen(5)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#server_socket.bind(('192.168.1.99', 8000))
-server_socket.bind(('10.100.218.9', 8000))
+server_socket.bind(('10.100.65.48', 8000))
 server_socket.listen(1)
 print("Server is listening for connections...")
 
