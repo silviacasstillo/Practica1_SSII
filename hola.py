@@ -55,10 +55,10 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind(('10.100.65.48', 8000))
 server_socket.listen(1)
 
-print("Server is listening for connections...")
+print("El servidor está esperando conexiones...")
 
 connection, address = server_socket.accept()
-print(f"Connection from {address} established.")
+print(f"Conexión desde {address} establecida.")
 
 while True:
     try:
@@ -79,7 +79,7 @@ while True:
             elif command == "2":  # Login usuario
                 if len(args) == 2:
                     username, password = args
-                    response = "Login successful" if login_user(username, password) else "Invalid credentials"
+                    response = "Inicio de sesión exitoso" if login_user(username, password) else "Invalid credentials"
                 else:
                     response = "Error: datos insuficientes para login"
             elif command == "3":  # Borrar usuario
