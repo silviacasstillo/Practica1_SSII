@@ -2,7 +2,7 @@ import socket
 
 def main():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('10.100.65.48', 8000))  # misma IP/puerto que el servidor
+    client_socket.connect(('192.168.1.135', 8000))  # misma IP/puerto que el servidor
     print("✅ Conectado al servidor")
 
     logged_in = False
@@ -17,7 +17,8 @@ def main():
         else:
             print("1. Eliminar usuario")
             print("2. Ejecutar consulta SQL")
-            print("3. Cerrar sesión")  # Nueva opción
+            print("3. Cerrar sesión")
+            print("4. Realizar transacción")
 
         opcion = input("Elige una opción: ")
 
@@ -86,6 +87,17 @@ def main():
                 logged_username = None
                 print("✅ Has cerrado sesión.")
                 # Ahora vuelve al menú inicial
+
+            elif opcion == "4":
+                usuario_destino = input("Usuario destino: ")
+                try:
+                    cantidad = float(input("Cantidad a enviar: "))
+                    mensaje = f"4,{logged_username},{usuario_destino},{cantidad}"
+                    client_socket.sendall(mensaje.encode())
+                    response = client_socket.recv(1024).decode()
+                    print("📩 Respuesta:", response)
+                except ValueError:
+                    print("❌ Por favor, ingresa un valor numérico válido para la cantidad.")
 
             else:
                 print("❌ Opción no válida")

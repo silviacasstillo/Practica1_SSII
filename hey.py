@@ -25,7 +25,7 @@ def login_user(username, password):
 
 def delete_user(username, password):
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM usuarios WHERE usuarioName=%s AND contrasea=%s", (username, hashpassword(password)))
+    cursor.execute("SELECT * FROM usuarios WHERE usuarioName=%s AND contrasea=%s", (username, hash_password(password)))
     user = cursor.fetchone()
     if user:
         cursor.execute("DELETE FROM usuarios WHERE usuarioName=%s", (username,))
@@ -58,7 +58,7 @@ except mysql.connector.Error as err:
 #server_socket.bind(('10.100.218.9', 8000))
 #server_socket.listen(5)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('10.100.65.48', 8000))
+server_socket.bind(('192.168.1.135', 8000))
 server_socket.listen(1)
 print("Server is listening for connections...")
 

@@ -37,6 +37,37 @@ def delete_user(username, password):
         cursor.close()
         return "Credenciales incorrectas. No se elimina usuario."
 
+def realizar_transaccion(usuario_origen, usuario_destino, cantidad):
+    cursor = db.cursor()
+    try:
+        # Verificar que el usuario origen existe
+        cursor.execute("SELECT usuarioId FROM usuarios WHERE usuarioName = %s", (usuario_origen,))
+        origen_result = cursor.fetchone()
+        if not origen_result:
+            cursor.close()
+            return "Error: Usuario origen no existe"
+        
+        # Verificar que el usuario destino existe
+        cursor.execute("SELECT usuarioId FROM usuarios WHERE usuarioName = %s", (usuario_destino,))
+        destino_result = cursor.fetchone()
+        if not destino_result:
+            cursor.close()
+            return "Error: Usuario destino no existe"
+        
+        usuario_origen_id = origen_result[0]
+        usuario_destino_id = destino_result[0]
+        
+        # Insertar la transacción
+        cursor.execute("INSERT INTO transacciones (usuario_origen, usuario_destino, cantidad) VALUES (%s, %s, %s)", 
+                      (usuario_origen_id, usuario_destino_id, cantidad))
+        db.commit()
+        cursor.close()
+        return f"Transacción realizada exitosamente: {cantidad} enviados de {usuario_origen} a {usuario_destino}"
+    
+    except mysql.connector.Error as err:
+        cursor.close()
+        return f"Error en la transacción: {err}"
+
 try:
     db = mysql.connector.connect(
         host="127.0.0.1",
@@ -52,7 +83,7 @@ except mysql.connector.Error as err:
     exit()
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('10.100.65.48', 8000))
+server_socket.bind(('192.168.1.135', 8000))
 server_socket.listen(1)
 
 print("El servidor está esperando conexiones...")
@@ -88,6 +119,16 @@ while True:
                     response = delete_user(username, password)
                 else:
                     response = "Error: datos insuficientes para borrar usuario"
+            elif command == "4":  # Realizar transacción
+                if len(args) == 3:
+                    usuario_origen, usuario_destino, cantidad = args
+                    try:
+                        cantidad_float = float(cantidad)
+                        response = realizar_transaccion(usuario_origen, usuario_destino, cantidad_float)
+                    except ValueError:
+                        response = "Error: La cantidad debe ser un número válido"
+                else:
+                    response = "Error: datos insuficientes para realizar transacción"
             else:
                 response = "Comando no reconocido"
         else:
