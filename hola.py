@@ -83,7 +83,7 @@ except mysql.connector.Error as err:
     exit()
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('192.168.1.135', 8000))
+server_socket.bind(('172.20.10.3', 8000))
 server_socket.listen(1)
 
 print("El servidor está esperando conexiones...")

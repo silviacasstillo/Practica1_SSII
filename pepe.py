@@ -1,15 +1,16 @@
 import socket
+from rich import print
 
 def main():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('192.168.1.135', 8000))  # misma IP/puerto que el servidor
+    client_socket.connect(('172.20.10.3', 8000))  # misma IP/puerto que el servidor
     print("✅ Conectado al servidor")
 
     logged_in = False
     logged_username = None
 
     while True:
-        print("\n--- MENÚ ---")
+        print("[blink][bold yellow]\n--- MENÚ ---[/bold yellow][/blink]")
         if not logged_in:
             print("1. Registrar usuario")
             print("2. Iniciar sesión")
@@ -17,8 +18,8 @@ def main():
         else:
             print("1. Eliminar usuario")
             print("2. Ejecutar consulta SQL")
-            print("3. Cerrar sesión")
-            print("4. Realizar transacción")
+            print("3. Realizar transacción")
+            print("4. Cerrar sesión")
 
         opcion = input("Elige una opción: ")
 
@@ -43,7 +44,7 @@ def main():
                     if "inicio de sesión exitoso" in login_response.lower():
                         logged_in = True
                         logged_username = username
-                        print(f"Has iniciado sesión como {username}")
+                        print(f"Has iniciado sesión como [bold blue]{username}[/bold blue]")
 
             elif opcion == "2":
                 username = input("Username: ")
@@ -54,8 +55,8 @@ def main():
                 if "inicio de sesión exitoso" in response.lower():
                     logged_in = True
                     logged_username = username
-                print("📩 Respuesta:", response)
-                print(f"Has iniciado sesión como '{username}'")
+                    print("📩 Respuesta:", response)
+                    print(f"Has iniciado sesión como [bold blue]{username}[/bold blue]")
 
             elif opcion == "3":
                 print("👋 Cerrando cliente...")
@@ -83,12 +84,6 @@ def main():
                 print("📩 Resultado:", response)
 
             elif opcion == "3":
-                logged_in = False
-                logged_username = None
-                print("✅ Has cerrado sesión.")
-                # Ahora vuelve al menú inicial
-
-            elif opcion == "4":
                 usuario_destino = input("Usuario destino: ")
                 try:
                     cantidad = float(input("Cantidad a enviar: "))
@@ -98,6 +93,12 @@ def main():
                     print("📩 Respuesta:", response)
                 except ValueError:
                     print("❌ Por favor, ingresa un valor numérico válido para la cantidad.")
+
+            elif opcion == "4":
+                logged_in = False
+                logged_username = None
+                print("✅ Has cerrado sesión.")
+                # Ahora vuelve al menú inicial
 
             else:
                 print("❌ Opción no válida")
