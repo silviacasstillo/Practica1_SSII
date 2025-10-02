@@ -16,9 +16,9 @@ def main():
             print("2. Iniciar sesión")
             print("3. Salir")
         else:
-            print("1. Eliminar usuario")
+            print("1. Realizar transacción")
             print("2. Ejecutar consulta SQL")
-            print("3. Realizar transacción")
+            print("3. Eliminar usuario")            
             print("4. Cerrar sesión")
 
         opcion = input("Elige una opción: ")
@@ -34,7 +34,6 @@ def main():
                 response = client_socket.recv(1024).decode()
                 print("📩 Respuesta:", response)
     
-    # Si quieres loguear automáticamente tras registro exitoso:
                 if "usuario registrado" in response.lower():
                     print("Intentando iniciar sesión automáticamente...")
                     message = f"2,{username},{password}"
@@ -66,24 +65,6 @@ def main():
                 print("❌ Opción no válida")
         else:
             if opcion == "1":
-                print(f"Solo puedes eliminar tu cuenta '{logged_username}'")
-                username = input("Confirma tu usuario para eliminar: ")
-                if username != logged_username:
-                    print("❌ Solo puedes eliminar la cuenta con la que has iniciado sesión.")
-                    continue
-                password = input("Contraseña: ")
-                mensaje = f"3,{username},{password}"
-                client_socket.sendall(mensaje.encode())
-                response = client_socket.recv(1024).decode()
-                print("📩 Respuesta:", response)
-
-            elif opcion == "2":
-                query = input("Escribe la consulta SQL: ")
-                client_socket.sendall(query.encode())
-                response = client_socket.recv(4096).decode()
-                print("📩 Resultado:", response)
-
-            elif opcion == "3":
                 usuario_destino = input("Usuario destino: ")
                 try:
                     cantidad = float(input("Cantidad a enviar: "))
@@ -94,11 +75,33 @@ def main():
                 except ValueError:
                     print("❌ Por favor, ingresa un valor numérico válido para la cantidad.")
 
+            elif opcion == "2":
+                query = input("Escribe la consulta SQL: ")
+                client_socket.sendall(query.encode())
+                response = client_socket.recv(4096).decode()
+                print("📩 Resultado:", response)
+
+            elif opcion == "3":
+                print(f"Solo puedes eliminar tu cuenta '{logged_username}'")
+                username = input("Confirma tu usuario para eliminar: ")
+                if username != logged_username:
+                    print("❌ Solo puedes eliminar la cuenta con la que has iniciado sesión.")
+                    continue
+                password = input("Contraseña: ")
+                mensaje = f"3,{username},{password}"
+                client_socket.sendall(mensaje.encode())
+                response = client_socket.recv(1024).decode()
+                print("📩 Respuesta:", response)
+    
+                if "Usuario eliminado correctamente" in response:
+                    logged_in = False
+                    logged_username = None
+                    print("✅ Has sido devuelto al menú principal.")
+
             elif opcion == "4":
                 logged_in = False
                 logged_username = None
                 print("✅ Has cerrado sesión.")
-                # Ahora vuelve al menú inicial
 
             else:
                 print("❌ Opción no válida")

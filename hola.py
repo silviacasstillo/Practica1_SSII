@@ -6,6 +6,26 @@ from rich import print
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
+def cargar_usuarios_iniciales():
+    cursor = db.cursor()
+    usuarios = [
+        ('Silvia', 'Castillo', 'silcasrubi', 'carolaR45'),
+        ('Amara', 'Innocent', 'rolerAmari', 'pepita'),
+        ('Victor', 'Ramos', 'vicyToler3', 'luadeu76.')
+    ]
+    for nombre, apellido, username, password in usuarios:
+        try:
+            hashed = hash_password(password)
+            cursor.execute("""
+                INSERT INTO usuarios (nombre, apellidos, usuarioName, contraseña)
+                VALUES (%s, %s, %s, %s)
+            """, (nombre, apellido, username, hashed))
+        except mysql.connector.IntegrityError:
+            pass  # El usuario ya existe, no hacemos nada
+    db.commit()
+    cursor.close()
+    print("[bold green]✓ 3 usuarios preexistentes cargados.[/bold green]")
+
 def register_user(n, p, username, password):
     try:
         hashed_password = hash_password(password)
@@ -27,16 +47,27 @@ def login_user(username, password):
 
 def delete_user(username, password):
     cursor = db.cursor()
+    # Verificar credenciales
     cursor.execute("SELECT * FROM usuarios WHERE usuarioName = %s AND contraseña = %s", (username, hash_password(password)))
     user = cursor.fetchone()
     if user:
+        # Obtener el usuarioId
+        cursor.execute("SELECT usuarioId FROM usuarios WHERE usuarioName = %s", (username,))
+        user_id = cursor.fetchone()[0]
+        
+        # Eliminar transacciones
+        cursor.execute("DELETE FROM transacciones WHERE usuario_origen = %s OR usuario_destino = %s", (user_id, user_id))
+        
+        # Eliminar usuario
         cursor.execute("DELETE FROM usuarios WHERE usuarioName = %s", (username,))
         db.commit()
         cursor.close()
-        return "Usuario eliminado correctamente"
+        return "Usuario eliminado correctamente. ´Cuenta borrada."
     else:
         cursor.close()
         return "Credenciales incorrectas. No se elimina usuario."
+
+
 
 def realizar_transaccion(usuario_origen, usuario_destino, cantidad):
     cursor = db.cursor()
@@ -63,7 +94,7 @@ def realizar_transaccion(usuario_origen, usuario_destino, cantidad):
                       (usuario_origen_id, usuario_destino_id, cantidad))
         db.commit()
         cursor.close()
-        return f"Transacción realizada exitosamente: {cantidad} enviados de [red]{usuario_origen}[/red] a [green]{usuario_destino}[/green]"
+        return f"Transacción realizada exitosamente: {cantidad} € enviados de [red]{usuario_origen}[/red] a [green]{usuario_destino}[/green]"
     
     except mysql.connector.Error as err:
         cursor.close()
@@ -82,6 +113,8 @@ try:
 except mysql.connector.Error as err:
     print(f"Error: {err}")
     exit()
+
+cargar_usuarios_iniciales()
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind(('172.20.10.3', 8000))
