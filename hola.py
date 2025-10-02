@@ -139,7 +139,7 @@ def realizar_transaccion(usuario_origen, cuenta_destino, cantidad):
         cursor.close()
 
         # Mensaje personalizado
-        return f"✅ {cantidad} € enviados a la cuenta [green]{cuenta_destino}[/green] perteneciente a [red]{nombre_destino} {apellidos_destino}[red]"
+        return f"✅ {cantidad} € enviados a la cuenta [green]{cuenta_destino}[/green] perteneciente a [hot_pink]{nombre_destino} {apellidos_destino}[/hot_pink]"
     
     except mysql.connector.Error as err:
         cursor.close()

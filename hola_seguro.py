@@ -167,7 +167,7 @@ def realizar_transaccion_segura(datos):
         db.commit()
         cursor.close()
         nonces_usados.add(nonce)
-        return f"✅ {cantidad} euros enviados a la cuenta [green]{cuenta_destino}[/green] perteneciente a [hot_pink]{nombre_dest} {apellidos_dest}[/hot_pink]"
+        return f"✅ {cantidad} € enviados a la cuenta [green]{cuenta_destino}[/green] perteneciente a [hot_pink]{nombre_dest} {apellidos_dest}[/hot_pink]"
     except Exception as e:
         return f"Error: {e}"
 
