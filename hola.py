@@ -83,9 +83,7 @@ def borrar_usuario(username, password):
         cursor.close()
         return "Credenciales incorrectas. No se elimina usuario."
 
-
-
-def realizar_transaccion(usuario_origen, usuario_destino, cantidad):
+def realizar_transaccion(usuario_origen, cuenta_destino, cantidad):
     cursor = db.cursor()
     try:
         # Verificar que el usuario origen existe
@@ -94,27 +92,37 @@ def realizar_transaccion(usuario_origen, usuario_destino, cantidad):
         if not origen_result:
             cursor.close()
             return "Error: Usuario origen no existe"
-        
-        # Verificar que el usuario destino existe
-        cursor.execute("SELECT usuarioId FROM usuarios WHERE usuarioName = %s", (usuario_destino,))
+        usuario_origen_id = origen_result[0]
+
+        # Verificar que el usuario destino existe y obtener sus datos
+        cursor.execute("""
+            SELECT usuarioId, nombre, apellidos 
+            FROM usuarios 
+            WHERE numero_cuenta = %s
+        """, (cuenta_destino,))
         destino_result = cursor.fetchone()
         if not destino_result:
             cursor.close()
-            return "Error: Usuario destino no existe"
+            return "Error: Cuenta destino no existe"
         
-        usuario_origen_id = origen_result[0]
         usuario_destino_id = destino_result[0]
-        
+        nombre_destino = destino_result[1]
+        apellidos_destino = destino_result[2]
+
         # Insertar la transacción
-        cursor.execute("INSERT INTO transacciones (usuario_origen, usuario_destino, cantidad) VALUES (%s, %s, %s)", 
-                      (usuario_origen_id, usuario_destino_id, cantidad))
+        cursor.execute("""
+            INSERT INTO transacciones (usuario_origen, usuario_destino, cantidad)
+            VALUES (%s, %s, %s)
+        """, (usuario_origen_id, usuario_destino_id, cantidad))
         db.commit()
         cursor.close()
-        return f"Transacción realizada exitosamente: {cantidad} € enviados de [red]{usuario_origen}[/red] a [green]{usuario_destino}[/green]"
+
+        # Mensaje personalizado
+        return f"✅ {cantidad} euros enviados a la cuenta [green]{cuenta_destino}[/green] perteneciente a [red]{nombre_destino} {apellidos_destino}[red]"
     
     except mysql.connector.Error as err:
         cursor.close()
-        return f"Error en la transacción: {err}"
+        return f"❌ Error en la transacción: {err}"
 
 try:
     db = mysql.connector.connect(
