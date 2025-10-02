@@ -8,6 +8,10 @@ def hash_password(password):
 
 def cargar_usuarios_iniciales():
     cursor = db.cursor()
+    # Obtener el próximo usuarioId
+    cursor.execute("SELECT COALESCE(MAX(usuarioId), 0) FROM usuarios")
+    next_id = cursor.fetchone()[0] + 1
+
     usuarios = [
         ('Silvia', 'Castillo', 'silcasrubi', 'carolaR45'),
         ('Amara', 'Innocent', 'rolerAmari', 'pepita'),
@@ -16,36 +20,48 @@ def cargar_usuarios_iniciales():
     for nombre, apellido, username, password in usuarios:
         try:
             hashed = hash_password(password)
+            cuenta = f"ES{next_id:010d}"  # Ej: ES0000000001
             cursor.execute("""
-                INSERT INTO usuarios (nombre, apellidos, usuarioName, contraseña)
-                VALUES (%s, %s, %s, %s)
-            """, (nombre, apellido, username, hashed))
+                INSERT INTO usuarios (nombre, apellidos, usuarioName, contraseña, numero_cuenta)
+                VALUES (%s, %s, %s, %s, %s)
+            """, (nombre, apellido, username, hashed, cuenta))
+            next_id += 1
         except mysql.connector.IntegrityError:
-            pass  # El usuario ya existe, no hacemos nada
+            pass  # Ya existe, no hacemos nada
     db.commit()
     cursor.close()
-    print("[bold green]✓ 3 usuarios preexistentes cargados.[/bold green]")
+    print("[bold green]✓ 3 usuarios preexistentes cargados con número de cuenta.[/bold green]")
 
-def register_user(n, p, username, password):
+
+def registrar_usuario(n, p, username, password):
     try:
-        hashed_password = hash_password(password)
+        # Obtener el próximo usuarioId
         cursor = db.cursor()
-        cursor.execute("INSERT INTO usuarios (nombre,apellidos,usuarioName, contraseña) VALUES (%s,%s,%s,%s)", (n, p, username, hashed_password))
+        cursor.execute("SELECT COALESCE(MAX(usuarioId), 0) + 1 FROM usuarios")
+        new_id = cursor.fetchone()[0]
+        cuenta = f"ES{new_id:010d}"  # Genera ES + 10 dígitos
+
+        hashed = hash_password(password)
+        cursor.execute("""
+            INSERT INTO usuarios (nombre, apellidos, usuarioName, contraseña, numero_cuenta)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (n, p, username, hashed, cuenta))
         db.commit()
         cursor.close()
-        return "Usuario registrado"
+        return "Usuario registrado con número de cuenta."
     except mysql.connector.IntegrityError:
         cursor.close()
         return "El usuario ya existe, no se puede registrar de nuevo"
 
-def login_user(username, password):
+
+def loggear_usuario(username, password):
     cursor = db.cursor()
     cursor.execute("SELECT * FROM usuarios WHERE usuarioName = %s AND contraseña = %s", (username, hash_password(password)))
     result = cursor.fetchone()
     cursor.close()
     return result is not None
 
-def delete_user(username, password):
+def borrar_usuario(username, password):
     cursor = db.cursor()
     # Verificar credenciales
     cursor.execute("SELECT * FROM usuarios WHERE usuarioName = %s AND contraseña = %s", (username, hash_password(password)))
@@ -62,7 +78,7 @@ def delete_user(username, password):
         cursor.execute("DELETE FROM usuarios WHERE usuarioName = %s", (username,))
         db.commit()
         cursor.close()
-        return "Usuario eliminado correctamente. ´Cuenta borrada."
+        return "Usuario eliminado correctamente. Cuenta borrada."
     else:
         cursor.close()
         return "Credenciales incorrectas. No se elimina usuario."
@@ -138,19 +154,19 @@ while True:
             if command == "1":  # Registrar usuario
                 if len(args) == 4:
                     n, p, username, password = args
-                    response = register_user(n, p, username, password)
+                    response = registrar_usuario(n, p, username, password)
                 else:
                     response = "Error: datos insuficientes para registro"
             elif command == "2":  # Login usuario
                 if len(args) == 2:
                     username, password = args
-                    response = "Inicio de sesión exitoso" if login_user(username, password) else "Invalid credentials"
+                    response = "Inicio de sesión exitoso" if loggear_usuario(username, password) else "Invalid credentials"
                 else:
                     response = "Error: datos insuficientes para login"
             elif command == "3":  # Borrar usuario
                 if len(args) == 2:
                     username, password = args
-                    response = delete_user(username, password)
+                    response = borrar_usuario(username, password)
                 else:
                     response = "Error: datos insuficientes para borrar usuario"
             elif command == "4":  # Realizar transacción

@@ -18,8 +18,9 @@ def main():
         else:
             print("1. Realizar transacción")
             print("2. Ejecutar consulta SQL")
-            print("3. Eliminar usuario")            
-            print("4. Cerrar sesión")
+            print("3. Ver mi número de cuenta")
+            print("4. Eliminar usuario")            
+            print("5. Cerrar sesión")
 
         opcion = input("Elige una opción: ")
 
@@ -65,10 +66,10 @@ def main():
                 print("❌ Opción no válida")
         else:
             if opcion == "1":
-                usuario_destino = input("Usuario destino: ")
+                cuenta_destino = input("Número de cuenta destino: ")
                 try:
                     cantidad = float(input("Cantidad a enviar: "))
-                    mensaje = f"4,{logged_username},{usuario_destino},{cantidad}"
+                    mensaje = f"4,{logged_username},{cuenta_destino},{cantidad}"
                     client_socket.sendall(mensaje.encode())
                     response = client_socket.recv(1024).decode()
                     print("📩 Respuesta:", response)
@@ -82,6 +83,19 @@ def main():
                 print("📩 Resultado:", response)
 
             elif opcion == "3":
+                message = f"SELECT numero_cuenta FROM usuarios WHERE usuarioName = '{logged_username}'"
+                client_socket.sendall(message.encode())
+                response = client_socket.recv(1024).decode()
+                if response and "[" in response:
+                    try:
+                        cuenta = response.strip("[]()'").replace("'", "").split(",")[0].strip()
+                        print(f"🏦 Tu número de cuenta es: [green]{cuenta}[/green]")
+                    except:
+                        print("❌ No se pudo obtener el número de cuenta.")
+                else:
+                    print("❌ No se encontró tu número de cuenta.")
+
+            elif opcion == "4":
                 print(f"Solo puedes eliminar tu cuenta '{logged_username}'")
                 username = input("Confirma tu usuario para eliminar: ")
                 if username != logged_username:
@@ -98,7 +112,7 @@ def main():
                     logged_username = None
                     print("✅ Has sido devuelto al menú principal.")
 
-            elif opcion == "4":
+            elif opcion == "5":
                 logged_in = False
                 logged_username = None
                 print("✅ Has cerrado sesión.")
