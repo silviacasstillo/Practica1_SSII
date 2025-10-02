@@ -56,10 +56,31 @@ def registrar_usuario(n, p, username, password):
 
 def loggear_usuario(username, password):
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM usuarios WHERE usuarioName = %s AND contraseña = %s", (username, hash_password(password)))
-    result = cursor.fetchone()
+    cursor.execute("SELECT usuarioName, contraseña FROM usuarios WHERE usuarioName = %s", (username,))
+    user = cursor.fetchone()
     cursor.close()
-    return result is not None
+    
+    if not user:
+        return False
+        
+    hash_almacenado = user[1]
+    
+    # 1. Intentar con SHA-256 (hash normal)
+    if hash_password(password) == hash_almacenado:
+        return True
+        
+    # 2. Si tiene ':', intentar con PBKDF2
+    if ":" in hash_almacenado:
+        try:
+            salt_hex, hash_clave = hash_almacenado.split(":")
+            salt = bytes.fromhex(salt_hex)
+            clave_calculada = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100000)
+            return clave_calculada.hex() == hash_clave
+        except:
+            return False
+            
+    return False
+
 
 def borrar_usuario(username, password):
     cursor = db.cursor()
@@ -118,7 +139,7 @@ def realizar_transaccion(usuario_origen, cuenta_destino, cantidad):
         cursor.close()
 
         # Mensaje personalizado
-        return f"✅ {cantidad} euros enviados a la cuenta [green]{cuenta_destino}[/green] perteneciente a [red]{nombre_destino} {apellidos_destino}[red]"
+        return f"✅ {cantidad} € enviados a la cuenta [green]{cuenta_destino}[/green] perteneciente a [red]{nombre_destino} {apellidos_destino}[red]"
     
     except mysql.connector.Error as err:
         cursor.close()
