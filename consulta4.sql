@@ -10,8 +10,6 @@ CREATE TABLE  usuarios(
        contraseña VARCHAR(256) NOT NULL  
 );
 
-
-
 CREATE TABLE transacciones(
         
         transaId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

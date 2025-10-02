@@ -159,16 +159,18 @@ def realizar_transaccion_segura(datos):
         usuario_destino_id = destino_result[0]
         nombre_dest, apellidos_dest = destino_result[1], destino_result[2]
 
+        # Insertar con nonce y mac
         cursor.execute("""
-            INSERT INTO transacciones (usuario_origen, usuario_destino, cantidad)
-            VALUES (%s, %s, %s)
-        """, (usuario_origen_id, usuario_destino_id, cantidad))
+            INSERT INTO transacciones (usuario_origen, usuario_destino, cantidad, nonce, mac)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (usuario_origen_id, usuario_destino_id, cantidad, nonce, mac_recibido))
         db.commit()
         cursor.close()
         nonces_usados.add(nonce)
         return f"✅ {cantidad} euros enviados a la cuenta [green]{cuenta_destino}[/green] perteneciente a [hot_pink]{nombre_dest} {apellidos_dest}[/hot_pink]"
     except Exception as e:
         return f"Error: {e}"
+
 
 
 # === Conexión BD ===
