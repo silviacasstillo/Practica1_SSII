@@ -1,245 +1,97 @@
 import socket
-import mysql.connector
-import hashlib
 import hmac
-import os
 from rich import print
 
+SHARED_KEY = b"clave_segura_para_mac_2025"
 
-# === Seguridad avanzada ===
-SHARED_KEY = b"clave_segura_para_mac_2025"  # En producción: usar KDF
-nonces_usados = set()
-
-
-# --- Tamaños de clave adecuados: PBKDF2 ---
-def hash_password_seguro(password: str) -> str:
-    salt = b"ssii_salt_2025"  # En producción: salt único por usuario
-    clave_derivada = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100000)
-    return salt.hex() + ":" + clave_derivada.hex()
-
-
-def verificar_password_seguro(password: str, hash_almacenado: str) -> bool:
-    # Intentar con PBKDF2
-    try:
-        salt_hex, hash_clave = hash_almacenado.split(":")
-        salt = bytes.fromhex(salt_hex)
-        clave_calculada = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100000)
-        return secure_compare(clave_calculada.hex(), hash_clave)
-    except:
-        pass
-
-    # Si falla, intentar con SHA-256 (para usuarios antiguos)
-    try:
-        return secure_compare(hashlib.sha256(password.encode()).hexdigest(), hash_almacenado)
-    except:
-        return False
-
-
-# --- Secure Comparator (evita side-channel) ---
-def secure_compare(a: str, b: str) -> bool:
-    if len(a) != len(b):
-        return False
-    result = 0
-    for x, y in zip(a, b):
-        result |= ord(x) ^ ord(y)
-    return result == 0
-
-
-# --- MAC para integridad ---
 def generar_mac(mensaje: str) -> str:
     return hmac.new(SHARED_KEY, mensaje.encode(), "sha256").hexdigest()
 
+def main():
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect(('127.0.0.1', 9000))
+    print("🔐 Conectado al servidor [green]seguro[/green]")
 
-# === Carga de usuarios ===
-def cargar_usuarios_iniciales():
-    cursor = db.cursor()
-    cursor.execute("SELECT COALESCE(MAX(usuarioId), 0) FROM usuarios")
-    next_id = cursor.fetchone()[0] + 1
+    logged_in = False
+    logged_username = None
 
-    usuarios = [
-        ('Silvia', 'Castillo', 'silcasrubi', 'carolaR45'),
-        ('Amara', 'Innocent', 'rolerAmari', 'pepita'),
-        ('Victor', 'Ramos', 'vicyToler3', 'luadeu76.')
-    ]
-    for nombre, apellido, username, password in usuarios:
-        try:
-            hashed = hash_password_seguro(password)
-            cuenta = f"ES{next_id:010d}"
-            cursor.execute("""
-                INSERT INTO usuarios (nombre, apellidos, usuarioName, contraseña, numero_cuenta)
-                VALUES (%s, %s, %s, %s, %s)
-            """, (nombre, apellido, username, hashed, cuenta))
-            next_id += 1
-        except mysql.connector.IntegrityError:
-            pass
-    db.commit()
-    cursor.close()
-    print("[bold green]✓ Usuarios preexistentes cargados con seguridad.[/bold green]")
+    while True:
+        print("[blink][bold yellow]\n--- MENÚ SEGURO ---[/bold yellow][/blink]")
+        if not logged_in:
+            print("1. Registrar usuario")
+            print("2. Iniciar sesión")
+            print("3. Salir")
+        else:
+            print("1. Realizar transacción")
+            print("2. Ver mi número de cuenta")
+            print("3. Eliminar usuario")            
+            print("4. Cerrar sesión")
 
+        opcion = input("Elige una opción: ")
 
-# === Registro, login, borrar ===
-def registrar_usuario(n, p, username, password):
-    try:
-        cursor = db.cursor()
-        cursor.execute("SELECT COALESCE(MAX(usuarioId), 0) + 1 FROM usuarios")
-        new_id = cursor.fetchone()[0]
-        cuenta = f"ES{new_id:010d}"
-        hashed = hash_password_seguro(password)
-        cursor.execute("""
-            INSERT INTO usuarios (nombre, apellidos, usuarioName, contraseña, numero_cuenta)
-            VALUES (%s, %s, %s, %s, %s)
-        """, (n, p, username, hashed, cuenta))
-        db.commit()
-        cursor.close()
-        return "Usuario registrado con seguridad."
-    except mysql.connector.IntegrityError:
-        cursor.close()
-        return "El usuario ya existe."
-
-
-def loggear_usuario(username, password):
-    cursor = db.cursor()
-    cursor.execute("SELECT usuarioName, contraseña FROM usuarios WHERE usuarioName = %s", (username,))
-    user = cursor.fetchone()
-    cursor.close()
-    if user and verificar_password_seguro(password, user[1]):
-        return True
-    return False
-
-
-def borrar_usuario(username, password):
-    cursor = db.cursor()
-    cursor.execute("SELECT usuarioName, contraseña FROM usuarios WHERE usuarioName = %s", (username,))
-    user = cursor.fetchone()
-    if user and verificar_password_seguro(password, user[1]):
-        cursor.execute("SELECT usuarioId FROM usuarios WHERE usuarioName = %s", (username,))
-        user_id = cursor.fetchone()[0]
-        cursor.execute("DELETE FROM transacciones WHERE usuario_origen = %s OR usuario_destino = %s", (user_id, user_id))
-        cursor.execute("DELETE FROM usuarios WHERE usuarioName = %s", (username,))
-        db.commit()
-        cursor.close()
-        return "Usuario eliminado con seguridad."
-    else:
-        cursor.close()
-        return "Credenciales incorrectas."
-
-
-# === Transacción segura ===
-def realizar_transaccion_segura(datos):
-    partes = datos.split(",")
-    if len(partes) != 5:
-        return "Error: Formato inválido."
-
-    usuario_origen, cuenta_destino, cantidad_str, nonce, mac_recibido = partes
-
-    if nonce in nonces_usados:
-        return "❌ Ataque de replay detectado."
-
-    mensaje_original = f"{usuario_origen},{cuenta_destino},{cantidad_str},{nonce}"
-    mac_esperado = generar_mac(mensaje_original)
-
-    if not secure_compare(mac_esperado, mac_recibido):
-        return "❌ Ataque detectado: MAC no válido."
-
-    try:
-        cantidad = float(cantidad_str)
-        cursor = db.cursor()
-        cursor.execute("SELECT usuarioId FROM usuarios WHERE usuarioName = %s", (usuario_origen,))
-        origen_result = cursor.fetchone()
-        if not origen_result:
-            cursor.close()
-            return "Error: Usuario origen no existe"
-        usuario_origen_id = origen_result[0]
-
-        cursor.execute("SELECT usuarioId, nombre, apellidos FROM usuarios WHERE numero_cuenta = %s", (cuenta_destino,))
-        destino_result = cursor.fetchone()
-        if not destino_result:
-            cursor.close()
-            return "Error: Cuenta destino no existe"
-        usuario_destino_id = destino_result[0]
-        nombre_dest, apellidos_dest = destino_result[1], destino_result[2]
-
-        # Insertar con nonce y mac
-        cursor.execute("""
-            INSERT INTO transacciones (usuario_origen, usuario_destino, cantidad, nonce, mac)
-            VALUES (%s, %s, %s, %s, %s)
-        """, (usuario_origen_id, usuario_destino_id, cantidad, nonce, mac_recibido))
-        db.commit()
-        cursor.close()
-        nonces_usados.add(nonce)
-        return f"✅ {cantidad} € enviados a la cuenta [green]{cuenta_destino}[/green] perteneciente a [hot_pink]{nombre_dest} {apellidos_dest}[/hot_pink]"
-    except Exception as e:
-        return f"Error: {e}"
-
-
-
-# === Conexión BD ===
-try:
-    db = mysql.connector.connect(
-        host="127.0.0.1",
-        user="ssii",
-        password="ssii",
-        database="ssii3",
-        charset="utf8mb4",
-        collation="utf8mb4_general_ci"
-    )
-    print("🔐 Conexión segura a la base de datos")
-except mysql.connector.Error as err:
-    print(f"Error: {err}")
-    exit()
-
-
-cargar_usuarios_iniciales()
-
-
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('172.20.10.3', 8000))
-server_socket.listen(1)
-print("🔐 Servidor seguro esperando conexiones...")
-
-
-while True:
-    try:
-        connection, address = server_socket.accept()
-        print(f"🔐 Conexión segura desde {address}")
-        while True:
-            data = connection.recv(1024).decode()
-            if not data or data.lower() == "salir":
-                print("Cliente cerró la conexión")
+        if not logged_in:
+            if opcion == "1":
+                n = input("Nombre: ")
+                p = input("Apellido: ")
+                u = input("Usuario: ")
+                pwd = input("Contraseña: ")
+                msg = f"1,{n},{p},{u},{pwd}"
+                client_socket.sendall(msg.encode())
+                print(f"📩 Respuesta: {client_socket.recv(1024).decode()}")
+            elif opcion == "2":
+                u = input("Usuario: ")
+                pwd = input("Contraseña: ")
+                msg = f"2,{u},{pwd}"
+                client_socket.sendall(msg.encode())
+                response = client_socket.recv(1024).decode()
+                if "exitoso" in response:
+                    logged_in = True
+                    logged_username = u
+                    print(f"🔐 Has iniciado sesión como [bold blue]{u}[/bold blue]")
+                print(f"📩 Respuesta: {response}")
+            elif opcion == "3":
                 break
-            if ',' in data:
-                command, *args = data.split(',')
-                if command == "1":
-                    response = registrar_usuario(*args) if len(args) == 4 else "Error: datos insuficientes"
-                elif command == "2":
-                    response = "Inicio de sesión exitoso" if loggear_usuario(*args) else "Credenciales inválidas"
-                elif command == "3":
-                    response = borrar_usuario(*args) if len(args) == 2 else "Error: datos insuficientes"
-                elif command == "4s":
-                    response = realizar_transaccion_segura(",".join(args))
-                else:
-                    response = "Comando no reconocido"
-            else:
-                # Consulta SQL directa (para depuración)
+        else:
+            if opcion == "1":
+                cuenta = input("Cuenta destino: ")
                 try:
-                    cursor = db.cursor()
-                    cursor.execute(data)
-                    results = cursor.fetchall()
-                    if results:
-                        response = "\n".join([str(row) for row in results])
-                    else:
-                        response = "✅ Consulta ejecutada correctamente (sin resultados)"
-                    cursor.close()
-                except Exception as e:
-                    response = f"❌ Error en consulta SQL: {e}"
-            print("Respuesta:", response)
-            connection.sendall(response.encode())
-        connection.close()
-        print("🔌 Servidor cerrado tras desconexión del cliente.")
-        break  # Cierra el servidor al salir del cliente
-    except Exception as e:
-        print(f"Error: {e}")
-        break
+                    cantidad = float(input("Cantidad: "))
+                    nonce = f"n{hash(logged_username + cuenta) % 100000}"
+                    mensaje = f"{logged_username},{cuenta},{cantidad},{nonce}"
+                    mac = generar_mac(mensaje)
+                    msg = f"4s,{mensaje},{mac}"
+                    client_socket.sendall(msg.encode())
+                    print(f"📩 Respuesta: {client_socket.recv(1024).decode()}")
+                except:
+                    print("❌ Cantidad no válida.")
 
-server_socket.close()
-print("Servidor apagado.")
+            elif opcion == "2":
+                query = f"SELECT numero_cuenta FROM usuarios WHERE usuarioName = '{logged_username}'"
+                client_socket.sendall(query.encode())
+                response = client_socket.recv(1024).decode()
+                if "[" in response:
+                    cuenta = response.strip("[]'").replace("'", "").split(",")[0].strip()
+                    print(f"🏦 Tu cuenta: [green]{cuenta}[/green]")
+
+            elif opcion == "3":
+                pwd = input("Contraseña: ")
+                msg = f"3,{logged_username},{pwd}"
+                client_socket.sendall(msg.encode())
+                response = client_socket.recv(1024).decode()
+                print(f"📩 Respuesta: {response}")
+                if "eliminado" in response:
+                    logged_in = False
+                    logged_username = None
+
+            elif opcion == "4":
+                logged_in = False
+                logged_username = None
+                print("✅ Cerraste sesión.")
+            else:
+                print("❌ Opción no válida")
+
+    client_socket.close()
+    print("🔌 Cliente desconectado")
+
+if __name__ == "__main__":
+    main()

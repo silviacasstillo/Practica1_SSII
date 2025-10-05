@@ -85,7 +85,7 @@ def main():
     mitm_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     mitm_server.bind((MITM_HOST, MITM_PORT))
     mitm_server.listen(5)
-    print(f"[bold cyan]Pepe maligno escuchando en {MITM_HOST}:{MITM_PORT}[/bold cyan]")
+    print(f"[bold cyan]Usuario maligno escuchando en {MITM_HOST}:{MITM_PORT}[/bold cyan]")
     while True:
         client_sock, addr = mitm_server.accept()
         print(f"[bold blue]Cliente conectado desde {addr}[/bold blue]")
