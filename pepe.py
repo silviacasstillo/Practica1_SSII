@@ -3,7 +3,7 @@ from rich import print
 
 def main():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('172.20.10.3', 8000))  # misma IP/puerto que el servidor
+    client_socket.connect(('127.0.0.1', 9000))  # misma IP/puerto que el servidor
     print("✅ Conectado al servidor")
 
     logged_in = False
@@ -17,10 +17,9 @@ def main():
             print("3. Salir")
         else:
             print("1. Realizar transacción")
-            print("2. Ejecutar consulta SQL")
-            print("3. Ver mi número de cuenta")
-            print("4. Eliminar usuario")            
-            print("5. Cerrar sesión")
+            print("2. Ver mi número de cuenta")
+            print("3. Eliminar usuario")            
+            print("4. Cerrar sesión")
 
         opcion = input("Elige una opción: ")
 
@@ -77,12 +76,6 @@ def main():
                     print("❌ Por favor, ingresa un valor numérico válido para la cantidad.")
 
             elif opcion == "2":
-                query = input("Escribe la consulta SQL: ")
-                client_socket.sendall(query.encode())
-                response = client_socket.recv(4096).decode()
-                print("📩 Resultado:", response)
-
-            elif opcion == "3":
                 message = f"SELECT numero_cuenta FROM usuarios WHERE usuarioName = '{logged_username}'"
                 client_socket.sendall(message.encode())
                 response = client_socket.recv(1024).decode()
@@ -95,7 +88,7 @@ def main():
                 else:
                     print("❌ No se encontró tu número de cuenta.")
 
-            elif opcion == "4":
+            elif opcion == "3":
                 print(f"Solo puedes eliminar tu cuenta '{logged_username}'")
                 username = input("Confirma tu usuario para eliminar: ")
                 if username != logged_username:
@@ -112,7 +105,7 @@ def main():
                     logged_username = None
                     print("✅ Has sido devuelto al menú principal.")
 
-            elif opcion == "5":
+            elif opcion == "4":
                 logged_in = False
                 logged_username = None
                 print("✅ Has cerrado sesión.")

@@ -23,10 +23,9 @@ def main():
             print("3. Salir")
         else:
             print("1. Realizar transacción")
-            print("2. Ejecutar consulta SQL")
-            print("3. Ver mi número de cuenta")
-            print("4. Eliminar usuario")            
-            print("5. Cerrar sesión")
+            print("2. Ver mi número de cuenta")
+            print("3. Eliminar usuario")            
+            print("4. Cerrar sesión")
 
         opcion = input("Elige una opción: ")
 
@@ -67,12 +66,6 @@ def main():
                     print("❌ Cantidad no válida.")
 
             elif opcion == "2":
-                query = input("Escribe la consulta SQL: ")
-                client_socket.sendall(query.encode())
-                response = client_socket.recv(4096).decode()
-                print("📩 Resultado:", response)
-
-            elif opcion == "3":
                 query = f"SELECT numero_cuenta FROM usuarios WHERE usuarioName = '{logged_username}'"
                 client_socket.sendall(query.encode())
                 response = client_socket.recv(1024).decode()
@@ -80,7 +73,7 @@ def main():
                     cuenta = response.strip("[]'").replace("'", "").split(",")[0].strip()
                     print(f"🏦 Tu cuenta: [green]{cuenta}[/green]")
 
-            elif opcion == "4":
+            elif opcion == "3":
                 pwd = input("Contraseña: ")
                 msg = f"3,{logged_username},{pwd}"
                 client_socket.sendall(msg.encode())
@@ -90,7 +83,7 @@ def main():
                     logged_in = False
                     logged_username = None
 
-            elif opcion == "5":
+            elif opcion == "4":
                 logged_in = False
                 logged_username = None
                 print("✅ Cerraste sesión.")
