@@ -43,7 +43,7 @@ def ataque_fuerza_bruta(client_socket, usuario, longitud_min, longitud_max, cara
 
 def main():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('192.168.1.99', 8000))
+    client_socket.connect(('1172.20.10.3', 8000))
     print("Conectado al servidor")
 
     diccionario = cargar_diccionario("diccionario.txt")

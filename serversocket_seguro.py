@@ -200,8 +200,8 @@ def realizar_transaccion_segura(datos):
 try:
     db = mysql.connector.connect(
         host="127.0.0.1",
-        user="root",
-        password="iissi$root",
+        user="ssii",
+        password="ssii",
         database="ssii3",
         charset="utf8mb4",
         collation="utf8mb4_general_ci"
@@ -216,7 +216,7 @@ cargar_usuarios_iniciales()
 
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('192.168.1.99', 8000))
+server_socket.bind(('172.20.10.3', 8000))
 server_socket.listen(1)
 print("🔐 Servidor seguro esperando conexiones...")
 
