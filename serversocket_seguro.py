@@ -3,12 +3,17 @@ import mysql.connector
 import hashlib
 import hmac
 import os
+import time
 from rich import print
 
 
 # === Seguridad avanzada ===
 SHARED_KEY = b"clave_segura_para_mac_2025"  # En producción: usar KDF
 nonces_usados = set()
+
+# Limitar intentos
+intentos_fallidos = {}
+
 
 
 # --- Tamaños de clave adecuados: PBKDF2 ---
@@ -49,6 +54,24 @@ def secure_compare(a: str, b: str) -> bool:
 def generar_mac(mensaje: str) -> str:
     return hmac.new(SHARED_KEY, mensaje.encode(), "sha256").hexdigest()
 
+# === Manejador de login con límite de intentos ===
+def login_con_limite(usuario, password):
+    ahora = time.time()
+    contador, ultimo = intentos_fallidos.get(usuario, (0, 0))
+
+    # Bloquear si hay 5 o más fallos en últimos 5 minutos = 300 seg
+    if contador >= 5 and (ahora - ultimo) < 300:
+        print(f"Bloqueado intento para usuario {usuario}")
+        time.sleep(2)  # retraso para desalentar ataque
+        return False, "Cuenta bloqueada temporalmente por múltiples intentos fallidos"
+
+    exito = loggear_usuario(usuario, password)
+    if exito:
+        intentos_fallidos.pop(usuario, None)  # reset contador si acierta
+        return True, "Inicio de sesión exitoso"
+    else:
+        intentos_fallidos[usuario] = (contador + 1, ahora)
+        return False, "Credenciales inválidas"
 
 # === Carga de usuarios ===
 def cargar_usuarios_iniciales():
@@ -177,8 +200,8 @@ def realizar_transaccion_segura(datos):
 try:
     db = mysql.connector.connect(
         host="127.0.0.1",
-        user="ssii",
-        password="ssii",
+        user="root",
+        password="iissi$root",
         database="ssii3",
         charset="utf8mb4",
         collation="utf8mb4_general_ci"
@@ -193,7 +216,7 @@ cargar_usuarios_iniciales()
 
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(('172.20.10.3', 8000))
+server_socket.bind(('192.168.1.99', 8000))
 server_socket.listen(1)
 print("🔐 Servidor seguro esperando conexiones...")
 
@@ -212,7 +235,19 @@ while True:
                 if command == "1":
                     response = registrar_usuario(*args) if len(args) == 4 else "Error: datos insuficientes"
                 elif command == "2":
-                    response = "Inicio de sesión exitoso" if loggear_usuario(*args) else "Credenciales inválidas"
+                    if len(args) == 2:
+                        usuario, password = args
+                        exito, mensaje = login_con_limite(usuario, password)
+                        response = mensaje
+                        if mensaje.startswith("Cuenta bloqueada"):  # Detecta bloqueo
+                            connection.sendall(response.encode())
+                            print(f"Cerrando conexión por bloqueos usuario {usuario}")
+                            connection.close()
+                            break  # Termina la conexión y no atiende más peticiones
+                    else:
+                        response = "Error: datos insuficientes para login"
+                    
+                   
                 elif command == "3":
                     response = borrar_usuario(*args) if len(args) == 2 else "Error: datos insuficientes"
                 elif command == "4s":
