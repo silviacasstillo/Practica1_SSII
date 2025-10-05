@@ -9,7 +9,7 @@ def generar_mac(mensaje: str) -> str:
 
 def main():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('172.20.10.3', 8000))
+    client_socket.connect(('127.0.0.1', 9000))
     print("🔐 Conectado al servidor [green]seguro[/green]")
 
     logged_in = False
