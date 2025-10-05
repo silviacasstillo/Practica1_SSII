@@ -37,7 +37,22 @@ def main():
                 pwd = input("Contraseña: ")
                 msg = f"1,{n},{p},{u},{pwd}"
                 client_socket.sendall(msg.encode())
-                print(f"📩 Respuesta: {client_socket.recv(1024).decode()}")
+                response = client_socket.recv(1024).decode()
+                print(f"📩 Respuesta: {response}")
+
+    # Si se registró correctamente, iniciar sesión automáticamente
+                if "usuario registrado" in response.lower():
+                    print("Intentando iniciar sesión automáticamente...")
+                    login_msg = f"2,{u},{pwd}"
+                    client_socket.sendall(login_msg.encode())
+                    login_response = client_socket.recv(1024).decode()
+                    print(f"📩 Respuesta login: {login_response}")
+                    if "exitoso" in login_response.lower():
+                        logged_in = True
+                        logged_username = u
+                        print(f"🔐 Has iniciado sesión como [bold blue]{u}[/bold blue]")
+
+
             elif opcion == "2":
                 u = input("Usuario: ")
                 pwd = input("Contraseña: ")
@@ -49,6 +64,7 @@ def main():
                     logged_username = u
                     print(f"🔐 Has iniciado sesión como [bold blue]{u}[/bold blue]")
                 print(f"📩 Respuesta: {response}")
+                
             elif opcion == "3":
                 break
         else:
@@ -66,12 +82,17 @@ def main():
                     print("❌ Cantidad no válida.")
 
             elif opcion == "2":
-                query = f"SELECT numero_cuenta FROM usuarios WHERE usuarioName = '{logged_username}'"
-                client_socket.sendall(query.encode())
+                message = f"SELECT numero_cuenta FROM usuarios WHERE usuarioName = '{logged_username}'"
+                client_socket.sendall(message.encode())
                 response = client_socket.recv(1024).decode()
-                if "[" in response:
-                    cuenta = response.strip("[]'").replace("'", "").split(",")[0].strip()
-                    print(f"🏦 Tu cuenta: [green]{cuenta}[/green]")
+                if response:
+                    try:
+                        cuenta = response.strip("()[]'\" ").replace("'", "").split(",")[0].strip()
+                        print(f"🏦 Tu número de cuenta es: [green]{cuenta}[/green]")
+                    except Exception:
+                        print("❌ No se pudo obtener el número de cuenta.")
+                else:
+                    print("❌ No se encontró tu número de cuenta.")
 
             elif opcion == "3":
                 pwd = input("Contraseña: ")
