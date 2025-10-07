@@ -6,7 +6,7 @@ from rich import print
 SERVER_HOST = '172.20.10.3'  # IP del servidor real
 SERVER_PORT = 8000
 
-MITM_HOST = '127.0.0.1'  # Donde escucha pepe maligno
+MITM_HOST = '127.0.0.1'  # Donde escucha cliente maligno
 MITM_PORT = 9000
 
 SHARED_KEY = b"clave_segura_para_mac_2025"
