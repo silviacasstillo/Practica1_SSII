@@ -1,0 +1,48 @@
+2025-10-07 13:01:58,524 - INFO - \u2705 Conectado al servidor
+2025-10-07 13:01:58,525 - INFO - [blink][bold yellow]
+--- MENÚ ---[/bold yellow][/blink]
+2025-10-07 13:01:58,526 - INFO - 1. Registrar usuario
+2025-10-07 13:01:58,527 - INFO - 2. Iniciar sesión
+2025-10-07 13:01:58,527 - INFO - 3. Salir
+2025-10-07 13:03:50,189 - INFO - \u2705 Conectado al servidor
+2025-10-07 13:03:50,190 - INFO - [blink][bold yellow]
+--- MENÚ ---[/bold yellow][/blink]
+2025-10-07 13:03:50,190 - INFO - 1. Registrar usuario
+2025-10-07 13:03:50,191 - INFO - 2. Iniciar sesión
+2025-10-07 13:03:50,192 - INFO - 3. Salir
+2025-10-07 13:03:59,722 - INFO - \U0001f4e9 Respuesta: Inicio de sesión exitoso
+2025-10-07 13:03:59,725 - INFO - Has iniciado sesión como [bold blue]rolerAmari[/bold blue]
+2025-10-07 13:03:59,725 - INFO - [blink][bold yellow]
+--- MENÚ ---[/bold yellow][/blink]
+2025-10-07 13:03:59,726 - INFO - 1. Realizar transacción
+2025-10-07 13:03:59,728 - INFO - 2. Ejecutar consulta SQL
+2025-10-07 13:03:59,728 - INFO - 3. Ver mi número de cuenta
+2025-10-07 13:03:59,729 - INFO - 4. Eliminar usuario
+2025-10-07 13:03:59,730 - INFO - 5. Cerrar sesión
+2025-10-07 13:04:11,425 - INFO - \U0001f513 [bold red]ATAQUE REPLAY INICIADO[/bold red] - Enviando transacción original...
+2025-10-07 13:04:11,432 - INFO - \U0001f4e9 Respuesta original: \u2705 10.0 € enviados a la cuenta [green]ES0000000003[/green] perteneciente a [hot_pink]Victor Ramos[/hot_pink]
+2025-10-07 13:04:11,433 - INFO - \u23f0 Esperando 5 segundos antes del replay #1...
+2025-10-07 13:04:16,436 - INFO - \U0001f504 [bold red]REPLAY #1[/bold red] - Reenviando la misma transacción...
+2025-10-07 13:04:16,451 - INFO - \U0001f4e9 Respuesta replay #1: \u2705 10.0 € enviados a la cuenta [green]ES0000000003[/green] perteneciente a [hot_pink]Victor Ramos[/hot_pink]
+2025-10-07 13:04:16,453 - INFO - \u23f0 Esperando 5 segundos antes del replay #2...
+2025-10-07 13:04:21,455 - INFO - \U0001f504 [bold red]REPLAY #2[/bold red] - Reenviando la misma transacción...
+2025-10-07 13:04:21,468 - INFO - \U0001f4e9 Respuesta replay #2: \u2705 10.0 € enviados a la cuenta [green]ES0000000003[/green] perteneciente a [hot_pink]Victor Ramos[/hot_pink]
+2025-10-07 13:04:21,470 - INFO - \u23f0 Esperando 5 segundos antes del replay #3...
+2025-10-07 13:04:26,473 - INFO - \U0001f504 [bold red]REPLAY #3[/bold red] - Reenviando la misma transacción...
+2025-10-07 13:04:26,485 - INFO - \U0001f4e9 Respuesta replay #3: \u2705 10.0 € enviados a la cuenta [green]ES0000000003[/green] perteneciente a [hot_pink]Victor Ramos[/hot_pink]
+2025-10-07 13:04:26,487 - INFO - \U0001f3c1 [bold red]ATAQUE REPLAY COMPLETADO[/bold red] - Se enviaron 4 transacciones idénticas en total
+2025-10-07 13:04:26,489 - INFO - [blink][bold yellow]
+--- MENÚ ---[/bold yellow][/blink]
+2025-10-07 13:04:26,489 - INFO - 1. Realizar transacción
+2025-10-07 13:04:26,490 - INFO - 2. Ejecutar consulta SQL
+2025-10-07 13:04:26,491 - INFO - 3. Ver mi número de cuenta
+2025-10-07 13:04:26,491 - INFO - 4. Eliminar usuario
+2025-10-07 13:04:26,492 - INFO - 5. Cerrar sesión
+2025-10-07 13:04:29,906 - INFO - \u2705 Has cerrado sesión.
+2025-10-07 13:04:29,907 - INFO - [blink][bold yellow]
+--- MENÚ ---[/bold yellow][/blink]
+2025-10-07 13:04:29,908 - INFO - 1. Registrar usuario
+2025-10-07 13:04:29,909 - INFO - 2. Iniciar sesión
+2025-10-07 13:04:29,909 - INFO - 3. Salir
+2025-10-07 13:04:31,357 - INFO - \U0001f44b Cerrando cliente...
+2025-10-07 13:04:31,357 - INFO - \U0001f50c Cliente desconectado

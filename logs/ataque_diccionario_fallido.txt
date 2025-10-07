@@ -1,0 +1,14 @@
+2025-10-07 13:50:51,821 - INFO - Conectado al servidor
+2025-10-07 13:50:51,822 - INFO - 
+Opciones:
+2025-10-07 13:50:51,822 - INFO - 1. Login normal
+2025-10-07 13:50:51,822 - INFO - 2. Fuerza bruta con diccionario
+2025-10-07 13:50:51,823 - INFO - 3. Fuerza bruta total (combinaciones de caracteres)
+2025-10-07 13:50:51,823 - INFO - 4. Salir
+2025-10-07 13:51:09,547 - INFO - Probando contraseña: 1234 -> fallo
+2025-10-07 13:51:09,550 - INFO - Probando contraseña: password -> fallo
+2025-10-07 13:51:09,551 - INFO - Probando contraseña: pepita -> fallo
+2025-10-07 13:51:09,552 - INFO - Probando contraseña: admin -> fallo
+2025-10-07 13:51:09,555 - INFO - Probando contraseña: contraseña123 -> fallo
+2025-10-07 13:51:11,557 - INFO - Probando contraseña: qwerty -> fallo
+2025-10-07 13:51:13,559 - INFO - ConnectionResetError: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto

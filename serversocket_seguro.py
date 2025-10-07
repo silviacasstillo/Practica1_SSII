@@ -2,7 +2,6 @@ import socket
 import mysql.connector
 import hashlib
 import hmac
-import os
 import time
 from rich import print
 

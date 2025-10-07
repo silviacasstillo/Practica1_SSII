@@ -1,0 +1,10 @@
+2025-10-07 12:49:47,044 - INFO - Conexión exitosa a la base de datos
+2025-10-07 12:49:47,055 - INFO - [bold green]\u2713 3 usuarios preexistentes cargados con número de cuenta.[/bold green]
+2025-10-07 12:49:47,056 - INFO - El servidor está esperando conexiones...
+2025-10-07 12:49:51,480 - INFO - Conexión desde ('172.20.10.3', 54404) establecida.
+2025-10-07 12:50:10,242 - INFO - Respuesta al cliente: Usuario registrado con número de cuenta.
+2025-10-07 12:50:10,248 - INFO - Respuesta al cliente: Inicio de sesión exitoso
+2025-10-07 12:50:17,249 - INFO - Respuesta al cliente: [('ES0000000224',)]
+2025-10-07 12:50:49,741 - INFO - Respuesta al cliente: \u2705 100.0 € enviados a la cuenta [green]ES0000000004[/green] perteneciente a [hot_pink]Silvia Castillo[/hot_pink]
+2025-10-07 12:51:02,195 - INFO - Cliente cerró la conexión
+2025-10-07 12:51:02,196 - INFO - Servidor cerrado

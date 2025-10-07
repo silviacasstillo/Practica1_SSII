@@ -1,0 +1,13 @@
+2025-10-07 13:10:14,291 - INFO - [bold cyan]Usuario maligno escuchando en 127.0.0.1:9000[/bold cyan]
+2025-10-07 13:10:17,427 - INFO - [bold blue]Cliente conectado desde ('127.0.0.1', 2023)[/bold blue]
+2025-10-07 13:10:28,062 - INFO - [bold yellow]Interceptado:[/bold yellow] 2,silcasrubi,carolaR45
+2025-10-07 13:10:28,066 - INFO - [bold yellow]Interceptado:[/bold yellow] Inicio de sesión exitoso
+2025-10-07 13:10:42,944 - INFO - [bold yellow]Interceptado:[/bold yellow] 4s,silcasrubi,ES0000000164,20.0,n39294,158b1b02516a546057c99976cf3571e48b288777d2c0624249780831866cc5fb
+2025-10-07 13:10:46,738 - INFO - Campos actuales:
+1. [yellow]Usuario origen:[/yellow] silcasrubi
+2. [yellow]Cuenta destino:[/yellow] ES0000000164
+3. [yellow]Cantidad:[/yellow] 20.0
+4. [yellow]Nonce:[/yellow] n39294
+5. [yellow]MAC:[/yellow] 158b1b02516a546057c99976cf3571e48b288777d2c0624249780831866cc5fb
+2025-10-07 13:10:55,784 - INFO - [bold green]Mensaje modificado y MAC recalculada a:[/bold green] 4s,silcasrubi,ES0000000164,200,n39294,a37f99671a365c2bfada70f560223e41c461b69da1c60a2f60e9fda5a179245a
+2025-10-07 13:10:55,785 - INFO - [bold yellow]Interceptado:[/bold yellow] \u274c Ataque detectado: MAC no válido.

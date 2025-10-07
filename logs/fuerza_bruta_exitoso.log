@@ -1,0 +1,80 @@
+2025-10-07 13:57:07,243 - INFO - Conectado al servidor
+2025-10-07 13:57:07,243 - INFO - 
+Opciones:
+2025-10-07 13:57:07,244 - INFO - 1. Login normal
+2025-10-07 13:57:07,244 - INFO - 2. Fuerza bruta con diccionario
+2025-10-07 13:57:07,244 - INFO - 3. Fuerza bruta total (combinaciones de caracteres)
+2025-10-07 13:57:07,245 - INFO - 4. Salir
+2025-10-07 13:57:14,881 - INFO - Fuerza bruta total para usuario 'pp' desde longitud 4 a 5 iniciada...
+2025-10-07 13:57:14,884 - INFO - Probada contraseña: aaaa -> fallo
+2025-10-07 13:57:14,885 - INFO - Probada contraseña: aaab -> fallo
+2025-10-07 13:57:14,887 - INFO - Probada contraseña: aaac -> fallo
+2025-10-07 13:57:14,888 - INFO - Probada contraseña: aaad -> fallo
+2025-10-07 13:57:14,889 - INFO - Probada contraseña: aaae -> fallo
+2025-10-07 13:57:14,890 - INFO - Probada contraseña: aaaf -> fallo
+2025-10-07 13:57:14,891 - INFO - Probada contraseña: aaag -> fallo
+2025-10-07 13:57:14,894 - INFO - Probada contraseña: aaah -> fallo
+2025-10-07 13:57:14,898 - INFO - Probada contraseña: aaai -> fallo
+2025-10-07 13:57:14,898 - INFO - Probada contraseña: aaaj -> fallo
+2025-10-07 13:57:14,899 - INFO - Probada contraseña: aaak -> fallo
+2025-10-07 13:57:14,900 - INFO - Probada contraseña: aaal -> fallo
+2025-10-07 13:57:14,901 - INFO - Probada contraseña: aaam -> fallo
+2025-10-07 13:57:14,904 - INFO - Probada contraseña: aaan -> fallo
+2025-10-07 13:57:14,905 - INFO - Probada contraseña: aaao -> fallo
+2025-10-07 13:57:14,906 - INFO - Probada contraseña: aaap -> fallo
+2025-10-07 13:57:14,908 - INFO - Probada contraseña: aaaq -> fallo
+2025-10-07 13:57:14,913 - INFO - Probada contraseña: aaar -> fallo
+2025-10-07 13:57:14,915 - INFO - Probada contraseña: aaas -> fallo
+2025-10-07 13:57:14,916 - INFO - Probada contraseña: aaat -> fallo
+2025-10-07 13:57:14,917 - INFO - Probada contraseña: aaau -> fallo
+2025-10-07 13:57:14,919 - INFO - Probada contraseña: aaav -> fallo
+2025-10-07 13:57:14,920 - INFO - Probada contraseña: aaaw -> fallo
+2025-10-07 13:57:14,921 - INFO - Probada contraseña: aaax -> fallo
+2025-10-07 13:57:14,923 - INFO - Probada contraseña: aaay -> fallo
+2025-10-07 13:57:14,925 - INFO - Probada contraseña: aaaz -> fallo
+2025-10-07 13:57:14,925 - INFO - Probada contraseña: aaaA -> fallo
+2025-10-07 13:57:14,926 - INFO - Probada contraseña: aaaB -> fallo
+2025-10-07 13:57:14,927 - INFO - Probada contraseña: aaaC -> fallo
+2025-10-07 13:57:14,928 - INFO - Probada contraseña: aaaD -> fallo
+2025-10-07 13:57:14,928 - INFO - Probada contraseña: aaaE -> fallo
+2025-10-07 13:57:14,929 - INFO - Probada contraseña: aaaF -> fallo
+2025-10-07 13:57:14,930 - INFO - Probada contraseña: aaaG -> fallo
+2025-10-07 13:57:14,930 - INFO - Probada contraseña: aaaH -> fallo
+2025-10-07 13:57:14,931 - INFO - Probada contraseña: aaaI -> fallo
+2025-10-07 13:57:14,932 - INFO - Probada contraseña: aaaJ -> fallo
+2025-10-07 13:57:14,932 - INFO - Probada contraseña: aaaK -> fallo
+2025-10-07 13:57:14,934 - INFO - Probada contraseña: aaaL -> fallo
+2025-10-07 13:57:14,938 - INFO - Probada contraseña: aaaM -> fallo
+2025-10-07 13:57:14,940 - INFO - Probada contraseña: aaaN -> fallo
+2025-10-07 13:57:14,941 - INFO - Probada contraseña: aaaO -> fallo
+2025-10-07 13:57:14,942 - INFO - Probada contraseña: aaaP -> fallo
+2025-10-07 13:57:14,944 - INFO - Probada contraseña: aaaQ -> fallo
+2025-10-07 13:57:14,945 - INFO - Probada contraseña: aaaR -> fallo
+2025-10-07 13:57:14,946 - INFO - Probada contraseña: aaaS -> fallo
+2025-10-07 13:57:14,946 - INFO - Probada contraseña: aaaT -> fallo
+2025-10-07 13:57:14,947 - INFO - Probada contraseña: aaaU -> fallo
+2025-10-07 13:57:14,948 - INFO - Probada contraseña: aaaV -> fallo
+2025-10-07 13:57:14,949 - INFO - Probada contraseña: aaaW -> fallo
+2025-10-07 13:57:14,949 - INFO - Probada contraseña: aaaX -> fallo
+2025-10-07 13:57:14,950 - INFO - Probada contraseña: aaaY -> fallo
+2025-10-07 13:57:14,951 - INFO - Probada contraseña: aaaZ -> fallo
+2025-10-07 13:57:14,952 - INFO - Probada contraseña: aaa0 -> fallo
+2025-10-07 13:57:14,953 - INFO - Probada contraseña: aaa1 -> fallo
+2025-10-07 13:57:14,954 - INFO - Probada contraseña: aaa2 -> fallo
+2025-10-07 13:57:14,956 - INFO - Probada contraseña: aaa3 -> fallo
+2025-10-07 13:57:14,957 - INFO - Probada contraseña: aaa4 -> fallo
+2025-10-07 13:57:14,957 - INFO - Probada contraseña: aaa5 -> fallo
+2025-10-07 13:57:14,958 - INFO - Probada contraseña: aaa6 -> fallo
+2025-10-07 13:57:14,959 - INFO - Probada contraseña: aaa7 -> fallo
+2025-10-07 13:57:14,960 - INFO - Probada contraseña: aaa8 -> fallo
+2025-10-07 13:57:14,960 - INFO - Probada contraseña: aaa9 -> fallo
+2025-10-07 13:57:14,961 - INFO - Probada contraseña: aaba -> fallo
+2025-10-07 13:57:14,962 - INFO - Probada contraseña: aabb -> fallo
+2025-10-07 13:57:14,962 - INFO - Contraseña encontrada: aabc
+2025-10-07 13:57:14,962 - INFO - 
+Opciones:
+2025-10-07 13:57:14,962 - INFO - 1. Login normal
+2025-10-07 13:57:14,963 - INFO - 2. Fuerza bruta con diccionario
+2025-10-07 13:57:14,963 - INFO - 3. Fuerza bruta total (combinaciones de caracteres)
+2025-10-07 13:57:14,963 - INFO - 4. Salir
+2025-10-07 13:57:24,104 - INFO - Cerrando cliente...

@@ -1,0 +1,17 @@
+2025-10-07 13:48:18,070 - INFO - Conectado al servidor
+2025-10-07 13:48:18,072 - INFO - 
+Opciones:
+2025-10-07 13:48:18,072 - INFO - 1. Login normal
+2025-10-07 13:48:18,072 - INFO - 2. Fuerza bruta con diccionario
+2025-10-07 13:48:18,072 - INFO - 3. Fuerza bruta total (combinaciones de caracteres)
+2025-10-07 13:48:18,072 - INFO - 4. Salir
+2025-10-07 13:48:34,409 - INFO - Probando contraseña: 1234 -> fallo
+2025-10-07 13:48:34,411 - INFO - Probando contraseña: password -> fallo
+2025-10-07 13:48:34,413 - INFO - Contraseña encontrada para rolerAmari: pepita
+2025-10-07 13:48:34,413 - INFO - 
+Opciones:
+2025-10-07 13:48:34,413 - INFO - 1. Login normal
+2025-10-07 13:48:34,413 - INFO - 2. Fuerza bruta con diccionario
+2025-10-07 13:48:34,414 - INFO - 3. Fuerza bruta total (combinaciones de caracteres)
+2025-10-07 13:48:34,414 - INFO - 4. Salir
+2025-10-07 13:48:45,648 - INFO - Cerrando cliente...

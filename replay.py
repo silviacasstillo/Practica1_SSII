@@ -4,7 +4,7 @@ from rich import print
 
 def main():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('192.168.1.135', 8000))  # misma IP/puerto que el servidor
+    client_socket.connect(('172.20.10.3', 8000))  # misma IP/puerto que el servidor
     print("✅ Conectado al servidor")
 
     logged_in = False

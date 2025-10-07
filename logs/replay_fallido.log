@@ -1,0 +1,41 @@
+2025-10-07 13:19:29,720 - INFO - \U0001f510 Conectado al servidor [green]seguro[/green]
+2025-10-07 13:19:29,721 - INFO - [blink][bold yellow]
+--- MENÚ SEGURO ---[/bold yellow][/blink]
+2025-10-07 13:19:29,722 - INFO - 1. Registrar usuario
+2025-10-07 13:19:29,722 - INFO - 2. Iniciar sesión
+2025-10-07 13:19:29,723 - INFO - 3. Salir
+2025-10-07 13:19:37,624 - INFO - \U0001f510 Has iniciado sesión como [bold blue]lolalola[/bold blue]
+2025-10-07 13:19:37,625 - INFO - \U0001f4e9 Respuesta: Inicio de sesión exitoso
+2025-10-07 13:19:37,626 - INFO - [blink][bold yellow]
+--- MENÚ SEGURO ---[/bold yellow][/blink]
+2025-10-07 13:19:37,628 - INFO - 1. Realizar transacción
+2025-10-07 13:19:37,629 - INFO - 2. Ejecutar consulta SQL
+2025-10-07 13:19:37,630 - INFO - 3. Ver mi número de cuenta
+2025-10-07 13:19:37,631 - INFO - 4. Eliminar usuario
+2025-10-07 13:19:37,631 - INFO - 5. Cerrar sesión
+2025-10-07 13:19:46,591 - INFO - \U0001f513 [bold red]ATAQUE REPLAY INICIADO[/bold red] - Enviando transacción original...
+2025-10-07 13:19:46,605 - INFO - \U0001f4e9 Respuesta original: \u2705 30.0 € enviados a la cuenta [green]ES0000000216[/green] perteneciente a [hot_pink]Luis Martinez[/hot_pink]
+2025-10-07 13:19:46,605 - INFO - \u23f0 Esperando 5 segundos antes del replay #1...
+2025-10-07 13:19:51,606 - INFO - \U0001f504 [bold red]REPLAY #1[/bold red] - Reenviando la misma transacción...
+2025-10-07 13:19:51,608 - INFO - \U0001f4e9 Respuesta replay #1: \u274c Ataque de replay detectado.
+2025-10-07 13:19:51,608 - INFO - \u23f0 Esperando 5 segundos antes del replay #2...
+2025-10-07 13:19:56,611 - INFO - \U0001f504 [bold red]REPLAY #2[/bold red] - Reenviando la misma transacción...
+2025-10-07 13:19:56,614 - INFO - \U0001f4e9 Respuesta replay #2: \u274c Ataque de replay detectado.
+2025-10-07 13:19:56,615 - INFO - \u23f0 Esperando 5 segundos antes del replay #3...
+2025-10-07 13:20:01,617 - INFO - \U0001f504 [bold red]REPLAY #3[/bold red] - Reenviando la misma transacción...
+2025-10-07 13:20:01,619 - INFO - \U0001f4e9 Respuesta replay #3: \u274c Ataque de replay detectado.
+2025-10-07 13:20:01,619 - INFO - \U0001f3c1 [bold red]ATAQUE REPLAY COMPLETADO[/bold red] - Se enviaron 4 transacciones idénticas en total
+2025-10-07 13:20:01,619 - INFO - [blink][bold yellow]
+--- MENÚ SEGURO ---[/bold yellow][/blink]
+2025-10-07 13:20:01,620 - INFO - 1. Realizar transacción
+2025-10-07 13:20:01,620 - INFO - 2. Ejecutar consulta SQL
+2025-10-07 13:20:01,620 - INFO - 3. Ver mi número de cuenta
+2025-10-07 13:20:01,620 - INFO - 4. Eliminar usuario
+2025-10-07 13:20:01,620 - INFO - 5. Cerrar sesión
+2025-10-07 13:22:57,376 - INFO - \u2705 Cerraste sesión.
+2025-10-07 13:22:57,377 - INFO - [blink][bold yellow]
+--- MENÚ SEGURO ---[/bold yellow][/blink]
+2025-10-07 13:22:57,378 - INFO - 1. Registrar usuario
+2025-10-07 13:22:57,379 - INFO - 2. Iniciar sesión
+2025-10-07 13:22:57,380 - INFO - 3. Salir
+2025-10-07 13:22:59,983 - INFO - \U0001f50c Cliente desconectado

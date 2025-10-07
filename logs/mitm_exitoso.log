@@ -1,0 +1,11 @@
+2025-10-07 12:57:05,349 - INFO - [bold cyan]Usuario maligno escuchando en 127.0.0.1:9000[/bold cyan]
+2025-10-07 12:57:07,946 - INFO - [bold blue]Cliente conectado desde ('127.0.0.1', 35438)[/bold blue]
+2025-10-07 12:57:56,152 - INFO - [bold yellow]Interceptado:[/bold yellow] 2,silcasrubi,carolaR45
+2025-10-07 12:57:56,155 - INFO - [bold yellow]Interceptado:[/bold yellow] Inicio de sesión exitoso
+2025-10-07 12:58:09,523 - INFO - [bold yellow]Interceptado:[/bold yellow] 4,silcasrubi,ES0000000002,10.0
+2025-10-07 12:58:12,338 - INFO - Campos actuales:
+1. [yellow]Usuario origen:[/yellow] silcasrubi
+2. [yellow]Cuenta destino:[/yellow] ES0000000002
+3. [yellow]Cantidad:[/yellow] 10.0
+2025-10-07 12:58:16,652 - INFO - [bold green]Mensaje modificado a:[/bold green] 4,silcasrubi,ES0000000002,100
+2025-10-07 12:58:16,663 - INFO - [bold yellow]Interceptado:[/bold yellow] \u2705 100.0 € enviados a la cuenta [green]ES0000000002[/green] perteneciente a [hot_pink]Amara Innocent[/hot_pink]

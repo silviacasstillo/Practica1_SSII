@@ -10,7 +10,7 @@ def generar_mac(mensaje: str) -> str:
 
 def main():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('192.168.1.135', 8000))
+    client_socket.connect(('172.20.10.3', 8000))
     print("🔐 Conectado al servidor [green]seguro[/green]")
 
     logged_in = False
@@ -61,7 +61,7 @@ def main():
                     nonce = f"n{hash(logged_username + cuenta) % 100000}"
                     mensaje = f"{logged_username},{cuenta},{cantidad},{nonce}"
                     mac = generar_mac(mensaje)
-                    msg = f"4,{mensaje},{mac}"
+                    msg = f"4s,{mensaje},{mac}"
                     
                     # Envío inicial de la transacción
                     print(f"🔓 [bold red]ATAQUE REPLAY INICIADO[/bold red] - Enviando transacción original...")

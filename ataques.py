@@ -2,6 +2,7 @@ import socket
 import itertools
 import string
 
+
 def cargar_diccionario(ruta):
     with open(ruta, 'r', encoding='utf-8') as f:
         return [line.strip() for line in f]

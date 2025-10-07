@@ -1,0 +1,15 @@
+2025-10-07 14:05:38,286 - INFO - Conectado al servidor
+2025-10-07 14:05:38,286 - INFO - 
+Opciones:
+2025-10-07 14:05:38,287 - INFO - 1. Login normal
+2025-10-07 14:05:38,287 - INFO - 2. Fuerza bruta con diccionario
+2025-10-07 14:05:38,288 - INFO - 3. Fuerza bruta total (combinaciones de caracteres)
+2025-10-07 14:05:38,288 - INFO - 4. Salir
+2025-10-07 14:05:54,954 - INFO - Fuerza bruta total para usuario 'lolalola' desde longitud 4 a 6 iniciada...
+2025-10-07 14:05:54,959 - INFO - Probada contraseña: aaaa -> fallo
+2025-10-07 14:05:54,961 - INFO - Probada contraseña: aaab -> fallo
+2025-10-07 14:05:54,964 - INFO - Probada contraseña: aaac -> fallo
+2025-10-07 14:05:54,965 - INFO - Probada contraseña: aaad -> fallo
+2025-10-07 14:05:54,969 - INFO - Probada contraseña: aaae -> fallo
+2025-10-07 14:05:56,971 - INFO - Probada contraseña: aaaf -> fallo
+2025-10-07 14:05:58,973 - INFO - ConnectionResetError: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
